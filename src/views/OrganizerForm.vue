@@ -1,72 +1,43 @@
 <template>
   <div>
-    <h1>Create an event</h1>
-    <form @submit.prevent="saveEvent">
-      <label>Category</label>
+    <h1>Create an organizer</h1>
+    <form @submit.prevent="saveOrganizer">
+      <label>Organizer name</label>
       <input
-        v-model="event.category"
+        v-model="organizer.name"
         type="text"
-        placeholder="Category"
+        placeholder="Organizer name"
         class="field"
       />
-      <h3>Name & describe your event</h3>
-
-      <label>Title</label>
-      <input
-        v-model="event.title"
-        type="text"
-        placeholder="Title"
-        class="field"
-      />
-
-      <label>Description</label>
-      <input
-        v-model="event.description"
-        type="text"
-        placeholder="Description"
-        class="field"
-      />
-
-      <h3>Where is your event?</h3>
-
-      <label>Location</label>
-      <input
-        v-model="event.location"
-        type="text"
-        placeholder="Location"
-        class="field"
-      />
-      <button type="submit">Submit</button>
+    
+      <button type="submit">OK</button>
     </form>
 
-    <pre>{{ event }}</pre>
+    <pre>{{ organizer }}</pre>
   </div>
 </template>
 <script>
-import EventService from '@/services/EventService.js'
+import OrganizerService from '@/services/OrganizerService.js'
 export default {
     inject: ['GStore'],
     data() {
         return {
-            event: {
-                category: '',
-                title: '',
-                description: '',
-                location: ''
+            organizer: {
+                name: '',
             }
         }
     },
   methods: {
-    saveEvent() {
-      EventService.saveEvent(this.event)
+    saveOrganizer() {
+      OrganizerService.saveOrganizer(this.organizer)
         .then((response) => {
           console.log(response)
           this.$router.push({
-            name: 'EventLayout',
+            name: 'OrganizerLayout',
             params: { id: response.data.id }
           })
           this.GStore.flashMessage =
-            'You are successfully add a new event for ' + response.data.title
+            'You have successfully added an organization named ' + response.data.name
           setTimeout(() => {
             this.GStore.flashMessage = ''
           }, 3000)
@@ -90,13 +61,13 @@ small {
   font-size: 20px;
 }
 .-text-primary {
-  color: #39b982;
+  color: #f5ae43;
 }
 .-text-base {
   color: #000;
 }
 .-text-error {
-  color: tomato;
+  color: rgb(194, 31, 2);
 }
 .-text-gray {
   color: rgba(0, 0, 0, 0.5);
